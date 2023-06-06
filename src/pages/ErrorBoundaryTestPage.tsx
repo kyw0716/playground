@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { ErrorBoundary } from '../error/ErrorBoundary';
 import {
   ProduceErrorWhenClicked,
@@ -28,12 +27,4 @@ export const ErrorBoundaryTestPage = () => {
       </FlexBox>
     </Layout>
   );
-};
-
-const Style = {
-  Container: styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  `,
 };
