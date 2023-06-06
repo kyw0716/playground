@@ -1,8 +1,8 @@
-import { Component, ReactNode, ErrorInfo } from 'react';
+import { Component, ReactNode } from 'react';
 
 interface Props {
   children?: ReactNode;
-  fallback?: ReactNode | string;
+  fallbackComponent?: ReactNode | string;
   fallbackCallback?: (error: Error | null) => void;
 }
 
@@ -18,23 +18,15 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   static getDerivedStateFromError(error: Error) {
-    // Update state so the next render will show the fallback UI.
-    return { hasError: true, error: error };
+    console.log('에러 바운더리에서 에러 발생 여부 판별됨 ');
+    return { hasError: true, error };
   }
-
-  //   componentDidCatch(error: Error, info: ErrorInfo) {
-  //     // Example "componentStack":
-  //     //   in ComponentThatThrows (created by App)
-  //     //   in ErrorBoundary (created by App)
-  //     //   in div (created by App)
-  //     //   in App
-  //   }
 
   render() {
     if (this.state.hasError) {
       this.props.fallbackCallback?.(this.state.error);
 
-      return this.props.fallback;
+      return this.props.fallbackComponent ?? this.props.children;
     }
 
     return this.props.children;

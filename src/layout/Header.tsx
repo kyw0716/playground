@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface Props {
@@ -5,9 +6,11 @@ interface Props {
 }
 
 export const Header = ({ title }: Props) => {
+  const navigate = useNavigate();
+
   return (
     <Style.Container>
-      <Style.Title>{title ?? ''}</Style.Title>
+      <Style.Title onClick={() => navigate('/')}>{title ?? ''}</Style.Title>
     </Style.Container>
   );
 };
@@ -26,6 +29,7 @@ const Style = {
     left: 0;
 
     background-color: white;
+    border-bottom: 1px solid #bebebe;
   `,
   Title: styled.h1`
     padding: 0;
@@ -33,5 +37,7 @@ const Style = {
 
     font-size: 25px;
     font-weight: bold;
+
+    cursor: pointer;
   `,
 };
