@@ -6,20 +6,23 @@ import {
 import { Layout } from '../layout/Layout';
 import { FlexBox } from '../layout/FlexBox';
 import { Margin } from '../layout/Margin';
+import { ErrorFallback } from '../errorBoundary/ErrorFallback';
 
 export const ErrorBoundaryTestPage = () => {
   return (
     <Layout title="에러바운더리 테스트 페이지">
       <FlexBox direction="column" alignItems={'center'}>
         <ErrorBoundary
-          fallbackComponent={<div>시작하자마자 발생한 에러 잡음</div>}
+          fallbackComponent={ErrorFallback}
+          fallbackCallback={(error?: Error) => alert(error?.message)}
         >
           <ProduceErrorWhenRendered />
         </ErrorBoundary>
         <Margin direction={'column'} size={20} />
         <FlexBox>
           <ErrorBoundary
-            fallbackComponent={<div>클릭했을 때 발생한 에러 잡음</div>}
+            fallbackComponent={ErrorFallback}
+            fallbackCallback={() => window.location.reload()}
           >
             <ProduceErrorWhenClicked />
           </ErrorBoundary>

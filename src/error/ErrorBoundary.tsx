@@ -1,32 +1,42 @@
-import { Component, ReactNode } from 'react';
+import React, { Component, ReactNode } from 'react';
 
 interface Props {
-  children?: ReactNode;
-  fallbackComponent?: ReactNode | string;
-  fallbackCallback?: (error: Error | null) => void;
+  children: ReactNode;
+  fallbackComponent: React.JSXElementConstructor<{
+    error: Error;
+    fallbackCallback?: (error?: Error) => void;
+  }>;
+  fallbackCallback?: (error?: Error) => void;
 }
 
 interface State {
-  hasError: boolean;
   error: Error | null;
 }
 
 export class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { hasError: false, error: null };
+    this.state = { error: null };
   }
 
   static getDerivedStateFromError(error: Error) {
-    console.log('에러 바운더리에서 에러 발생 여부 판별됨 ');
-    return { hasError: true, error };
+    return { error };
   }
 
   render() {
-    if (this.state.hasError) {
-      this.props.fallbackCallback?.(this.state.error);
+    if (this.state.error !== null) {
+      if (this.props.fallbackComponent)
+        return (
+          <this.props.fallbackComponent
+            error={this.state.error}
+            fallbackCallback={this.props.fallbackCallback}
+          />
+        );
 
-      return this.props.fallbackComponent ?? this.props.children;
+      if (this.props.fallbackCallback) {
+        this.props.fallbackCallback(this.state.error);
+        return;
+      }
     }
 
     return this.props.children;

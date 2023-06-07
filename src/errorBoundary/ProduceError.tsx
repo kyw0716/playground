@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import { useAsyncErrorBoundary } from '../hooks/useAsyncErrorBoundary';
 
 export const ProduceErrorWhenClicked = () => {
-  const [isErrorOccurred, setIsErrorOccurred] = useState(false);
-
-  if (isErrorOccurred) throw new Error('새롭게 발생한 에러');
+  const { setAsyncErrorToThrow } = useAsyncErrorBoundary();
 
   const produceError = () => {
     fetch('그냥 아무 url')
       .then((res) => res.json())
-      .catch(() => setIsErrorOccurred(true));
+      .catch(() =>
+        setAsyncErrorToThrow(new Error('비동기 요청에서 발생한 에러'))
+      );
   };
 
   return <button onClick={produceError}>클릭하면 에러 발생!</button>;
