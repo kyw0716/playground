@@ -1,14 +1,14 @@
-import { useAsyncErrorBoundary } from '../hooks/useAsyncErrorBoundary';
+import { useState } from 'react';
+import { useFetch } from '../hooks/useFetch';
 
 export const ProduceErrorWhenClicked = () => {
-  const { setAsyncErrorToThrow } = useAsyncErrorBoundary();
+  const [아무URL요청] = useFetch('dd');
+  const [data, setData] = useState('');
 
-  const produceError = () => {
-    fetch('그냥 아무 url')
-      .then((res) => res.json())
-      .catch(() =>
-        setAsyncErrorToThrow(new Error('비동기 요청에서 발생한 에러'))
-      );
+  const produceError = async () => {
+    const 결과값 = await 아무URL요청<string>('아무 URL', 'GET');
+
+    if (결과값) setData(결과값);
   };
 
   return <button onClick={produceError}>클릭하면 에러 발생!</button>;
