@@ -1,13 +1,26 @@
 import { useEffect, useState } from 'react';
 import { useAsyncErrorBoundary } from './useAsyncErrorBoundary';
 
-export const useFetch = <I, T>(dispatch: (arg: I) => Promise<T>, arg: I) => {
+export const useFetch = <T>(url: string, arg?: RequestInit) => {
+  const { setAsyncErrorToThrow } = useAsyncErrorBoundary();
+
   const [promise, setPromise] = useState<Promise<void>>();
   const [response, setResponse] = useState<T>();
   const [status, setStatus] = useState<'pending' | 'fulfilled' | 'rejected'>(
     'pending'
   );
-  const { setAsyncErrorToThrow } = useAsyncErrorBoundary();
+
+  const handleResponse = async (response: Response): Promise<T> => {
+    if (!response.ok) {
+      const errorMessage = await response.json();
+      const error = new Error(errorMessage);
+
+      setAsyncErrorToThrow(error);
+      throw error;
+    }
+
+    return response.json();
+  };
 
   const resolvePromise = (response: T) => {
     setStatus('fulfilled');
@@ -22,12 +35,11 @@ export const useFetch = <I, T>(dispatch: (arg: I) => Promise<T>, arg: I) => {
   useEffect(() => {
     setStatus('pending');
     setPromise(
-      dispatch(arg)
-        .then(resolvePromise, rejectPromise)
-        .catch((error) => rejectPromise(error))
+      fetch(url, arg).then(handleResponse).then(resolvePromise, rejectPromise)
     );
   }, [arg]);
 
   if (status === 'pending' && promise) throw promise;
-  return response;
+
+  return { response };
 };

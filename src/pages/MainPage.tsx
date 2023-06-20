@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Layout } from '../layout/Layout';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 
 export const Main = () => {
   const navigate = useNavigate();
@@ -13,12 +12,6 @@ export const Main = () => {
   const goToSuspensePage = () => {
     navigate('/suspense');
   };
-
-  useEffect(() => {
-    fetch('/api/suspense')
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-  }, []);
 
   return (
     <Layout title="메인 페이지">

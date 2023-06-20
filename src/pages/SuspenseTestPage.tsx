@@ -1,48 +1,36 @@
-import { Suspense, memo, useMemo } from 'react';
+import { Suspense, useState } from 'react';
 import { Layout } from '../layout/Layout';
-import { useFetch } from '../hooks/useFetch';
 import { ErrorBoundary } from '../error/ErrorBoundary';
 import { ErrorFallback } from '../errorBoundary/ErrorFallback';
-import { useAsyncErrorBoundary } from '../hooks/useAsyncErrorBoundary';
+import { ShowApiResponse } from '../suspense/ShowApiResponse';
+import { FlexBox } from '../layout/FlexBox';
 
-interface Arg {
-  method: 'GET' | 'POST' | 'DELETE' | 'PUT';
-  body?: BodyInit;
-}
+// Suspense 내부에서 Promise 객체가 throw 되면 fallback이 트리거 된다.
+const Test = () => {
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
 
-const ShowApiResponse = () => {
-  const { setAsyncErrorToThrow } = useAsyncErrorBoundary();
+  if (isButtonClicked) throw new Promise((resolve) => resolve(''));
 
-  const fetchString = async (arg: Arg): Promise<string> => {
-    const response = await fetch('/api/suspense', arg).catch((error) => {
-      setAsyncErrorToThrow(error);
-      throw new Error(error);
-    });
-
-    if (!response.ok) {
-      const errorMessage = await response.json();
-      const error = new Error(errorMessage);
-
-      setAsyncErrorToThrow(error);
-      throw error;
-    }
-
-    return response.json();
-  };
-  const arg = useMemo<Arg>(() => ({ method: 'GET' }), []);
-  const response = useFetch<Arg, string>(fetchString, arg);
-
-  return <>서버 반환값: {response}</>;
+  return (
+    <button onClick={() => setIsButtonClicked(true)}>
+      누르면 Promise 객체 반환
+    </button>
+  );
 };
 
-export const SuspenseTestPage = memo(() => {
+export const SuspenseTestPage = () => {
   return (
     <Layout title="서스펜스 테스트 페이지">
       <ErrorBoundary fallbackComponent={ErrorFallback}>
-        <Suspense fallback={<>Loading...</>}>
-          <ShowApiResponse />
-        </Suspense>
+        <FlexBox direction={'column'}>
+          <Suspense fallback={<div>Loading...</div>}>
+            <ShowApiResponse />
+          </Suspense>
+          <Suspense fallback={<div>Loading2...</div>}>
+            <Test />
+          </Suspense>
+        </FlexBox>
       </ErrorBoundary>
     </Layout>
   );
-});
+};
