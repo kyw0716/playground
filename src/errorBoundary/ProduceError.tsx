@@ -1,20 +1,16 @@
-import { useState } from 'react';
-import { useFetch } from '../hooks/useFetch';
+import { useAsyncErrorBoundary } from '../hooks/useAsyncErrorBoundary';
 
 export const ProduceErrorWhenClicked = () => {
-  const [unknownRequest] = useFetch('dd');
-  const [data, setData] = useState('');
-
+  const { setAsyncErrorToThrow } = useAsyncErrorBoundary();
   const produceError = async () => {
-    const unknownResult = await unknownRequest<string>('아무 URL', 'GET');
+    const error = new Error('클릭해서 발생한 에러');
 
-    setData(unknownResult);
+    setAsyncErrorToThrow(error);
   };
 
   return (
     <>
       <button onClick={produceError}>클릭하면 에러 발생!</button>
-      <div>{data}</div>
     </>
   );
 };

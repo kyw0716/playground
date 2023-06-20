@@ -12,18 +12,12 @@ export const ErrorBoundaryTestPage = () => {
   return (
     <Layout title="에러바운더리 테스트 페이지">
       <FlexBox direction="column" alignItems={'center'}>
-        <ErrorBoundary
-          fallbackComponent={ErrorFallback}
-          fallbackCallback={(error?: Error) => alert(error?.message)}
-        >
+        <ErrorBoundary fallbackComponent={ErrorFallback}>
           <ProduceErrorWhenRendered />
         </ErrorBoundary>
         <Margin direction={'column'} size={20} />
         <FlexBox>
-          <ErrorBoundary
-            fallbackComponent={ErrorFallback}
-            fallbackCallback={() => window.location.reload()}
-          >
+          <ErrorBoundary fallbackComponent={ErrorFallback}>
             <ProduceErrorWhenClicked />
           </ErrorBoundary>
         </FlexBox>

@@ -4,9 +4,8 @@ interface Props {
   children: ReactNode;
   fallbackComponent: React.JSXElementConstructor<{
     error: Error;
-    fallbackCallback?: (error?: Error) => void;
+    fallbackCallback: (error?: Error) => void;
   }>;
-  fallbackCallback?: (error?: Error) => void;
 }
 
 interface State {
@@ -29,14 +28,9 @@ export class ErrorBoundary extends Component<Props, State> {
         return (
           <this.props.fallbackComponent
             error={this.state.error}
-            fallbackCallback={this.props.fallbackCallback}
+            fallbackCallback={() => this.setState({ error: null })}
           />
         );
-
-      if (this.props.fallbackCallback) {
-        this.props.fallbackCallback(this.state.error);
-        return;
-      }
     }
 
     return this.props.children;
