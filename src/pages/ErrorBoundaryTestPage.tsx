@@ -1,12 +1,12 @@
-import { ErrorBoundary } from '../error/ErrorBoundary';
+import { ErrorBoundary } from '../components/error/ErrorBoundary';
 import {
   ProduceErrorWhenClicked,
   ProduceErrorWhenRendered,
-} from '../errorBoundary/ProduceError';
-import { Layout } from '../layout/Layout';
-import { FlexBox } from '../layout/FlexBox';
-import { Margin } from '../layout/Margin';
-import { ErrorFallback } from '../errorBoundary/ErrorFallback';
+} from '../components/errorBoundary/ProduceError';
+import { Layout } from '../components/layout/Layout';
+import { FlexBox } from '../components/layout/FlexBox';
+import { Margin } from '../components/layout/Margin';
+import { ErrorFallback } from '../components/errorBoundary/ErrorFallback';
 
 export const ErrorBoundaryTestPage = () => {
   return (

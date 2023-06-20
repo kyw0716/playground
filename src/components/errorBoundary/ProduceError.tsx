@@ -1,11 +1,11 @@
-import { useAsyncErrorBoundary } from '../hooks/useAsyncErrorBoundary';
+import { useAsyncErrorBoundary } from '../../hooks/useAsyncErrorBoundary';
 
 export const ProduceErrorWhenClicked = () => {
-  const { setAsyncErrorToThrow } = useAsyncErrorBoundary();
+  const { throwErrorAtRenderTime } = useAsyncErrorBoundary();
   const produceError = async () => {
     const error = new Error('클릭해서 발생한 에러');
 
-    setAsyncErrorToThrow(error);
+    throwErrorAtRenderTime(error);
   };
 
   return (

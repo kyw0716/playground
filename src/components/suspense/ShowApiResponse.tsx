@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useFetch } from '../hooks/useFetch';
+import { useFetch } from '../../hooks/useFetch';
 
 interface Arg {
   method: 'GET' | 'POST' | 'DELETE' | 'PUT';

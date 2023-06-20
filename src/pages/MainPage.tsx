@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Layout } from '../layout/Layout';
+import { Layout } from '../components/layout/Layout';
 import { useNavigate } from 'react-router-dom';
 
 export const Main = () => {
