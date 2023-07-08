@@ -4,18 +4,24 @@ import { Main } from './pages/MainPage';
 import { SuspenseTestPage } from './pages/SuspenseTestPage';
 import ArrayMap from './pages/ArrayMap';
 import { Todo } from './pages/Todo';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+
+const todoClient = new QueryClient();
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" Component={Main} />
-        <Route path="/errorBoundary" Component={ErrorBoundaryTestPage} />
-        <Route path="/suspense" Component={SuspenseTestPage} />
-        <Route path="/arrayMap" Component={ArrayMap} />
-        <Route path="/todo" Component={Todo} />
-      </Routes>
-    </BrowserRouter>
+    <QueryClientProvider client={todoClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" Component={Main} />
+          <Route path="/errorBoundary" Component={ErrorBoundaryTestPage} />
+          <Route path="/suspense" Component={SuspenseTestPage} />
+          <Route path="/arrayMap" Component={ArrayMap} />
+
+          <Route path="/todo" Component={Todo} />
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 
