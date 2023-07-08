@@ -2,7 +2,7 @@ import { rest } from 'msw';
 
 type RequestCase = 'success' | 'fail' | 'network';
 
-export const mockApis = [
+export const suspenseHandlers = [
   rest.get('/api/suspense', async (req, res, ctx) => {
     const requestCase = req.url.searchParams.get('case') as RequestCase;
 
