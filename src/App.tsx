@@ -3,7 +3,7 @@ import { ErrorBoundaryTestPage } from './pages/ErrorBoundaryTestPage';
 import { Main } from './pages/MainPage';
 import { SuspenseTestPage } from './pages/SuspenseTestPage';
 import ArrayMap from './pages/ArrayMap';
-import { Todo } from './pages/Todo';
+import TodoPage from './pages/TodoPage';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 const todoClient = new QueryClient();
@@ -17,8 +17,7 @@ function App() {
           <Route path="/errorBoundary" Component={ErrorBoundaryTestPage} />
           <Route path="/suspense" Component={SuspenseTestPage} />
           <Route path="/arrayMap" Component={ArrayMap} />
-
-          <Route path="/todo" Component={Todo} />
+          <Route path="/todo" Component={TodoPage} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
