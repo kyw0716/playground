@@ -1,13 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { v4 } from 'uuid';
+import { TodoType } from '../types';
+import { Fragment } from 'react';
+import TodoItem from './TodoItem';
 
 function TodoList() {
   const {
     data: todos,
     isLoading,
     isFetching,
-  } = useQuery<string[]>({
+  } = useQuery<TodoType[]>({
     queryKey: ['todos'],
     queryFn: () => axios.get('/todo').then((response) => response.data),
   });
@@ -16,8 +18,8 @@ function TodoList() {
     <>
       {todos && todos.length > 0 ? (
         <ul>
-          {todos.map((todo) => (
-            <li key={v4()}>{todo}</li>
+          {todos.map((todoData) => (
+            <TodoItem key={todoData.id} id={todoData.id} todo={todoData.todo} />
           ))}
         </ul>
       ) : (
