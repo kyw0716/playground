@@ -18,7 +18,23 @@ function TodoModifyInput({ id, todo, closeModifyInput }: Props) {
         id,
         todo: newTodo,
       }),
+    onMutate: async (newTodo: string) => {
+      await todoClient.cancelQueries(['todos']);
 
+      const previousTodos = todoClient.getQueryData<TodoType[]>(['todos']);
+
+      todoClient.setQueryData(['todos'], () =>
+        previousTodos?.map((todoData) => {
+          if (todoData.id === id) return { id, todo: newTodo };
+          return todoData;
+        })
+      );
+
+      return { previousTodos };
+    },
+    onError: (err, todos, context) => {
+      todoClient.setQueryData(['todos'], context?.previousTodos);
+    },
     onSuccess: () => {
       todoClient.invalidateQueries(['todos']);
     },

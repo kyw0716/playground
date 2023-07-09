@@ -11,7 +11,16 @@ function TodoItem({ id, todo }: TodoType) {
 
   const { mutate } = useMutation({
     mutationFn: (id: string) => axios.delete(`/todo?todoId:${id}`),
-    onSuccess: () => {
+    onMutate: async () => {
+      await todoClient.cancelQueries(['todos']);
+
+      const previousTodos = todoClient.getQueryData<TodoType[]>(['todos']);
+
+      todoClient.setQueryData(['todos'], () => previousTodos?.filter((todo) => todo.id !== id));
+
+      return { previousTodos };
+    },
+    onSettled: () => {
       todoClient.invalidateQueries(['todos']);
     },
   });

@@ -18,12 +18,12 @@ export const todoHandlers = [
 
       todos[modifiedTodoIndex].todo = todo;
 
-      return res(ctx.json('modify todo success'), ctx.delay(1000));
+      return res(ctx.json('modify todo success'));
     }
 
     todos.push({ id: v4(), todo });
 
-    return res(ctx.json('add todo success'), ctx.delay(1000));
+    return res(ctx.json('add todo success'));
   }),
   rest.delete('/todo', (req, res, ctx) => {
     const todoId = req.url.searchParams.get('todoId');
@@ -31,6 +31,6 @@ export const todoHandlers = [
 
     todos.splice(deleteTodoIndex, 1);
 
-    return res(ctx.json('success'), ctx.delay(1000));
+    return res(ctx.json('success'));
   }),
 ];
