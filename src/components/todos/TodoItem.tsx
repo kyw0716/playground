@@ -10,7 +10,7 @@ function TodoItem({ id, todo }: TodoType) {
   const todoClient = useQueryClient();
 
   const { mutate } = useMutation({
-    mutationFn: (id: string) => axios.delete(`/todo?todoId:${id}`),
+    mutationFn: (id: string) => axios.delete(`/todo?todoId=${id}`),
     onMutate: async () => {
       await todoClient.cancelQueries(['todos']);
 
