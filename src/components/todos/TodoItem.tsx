@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { TodoType } from '../types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
@@ -29,14 +29,14 @@ function TodoItem({ id, todo }: TodoType) {
   };
 
   return (
-    <Fragment>
+    <>
       <li>{todo}</li>
       <button onClick={deleteTodo}>삭제</button>
       <button onClick={openModifyInput}>수정</button>
       {isModifyButtonClicked && (
         <TodoModifyInput id={id} todo={todo} closeModifyInput={closeModifyInput} />
       )}
-    </Fragment>
+    </>
   );
 }
 
