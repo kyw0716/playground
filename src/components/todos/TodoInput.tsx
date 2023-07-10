@@ -14,14 +14,19 @@ function TodoInput() {
     onMutate: async (newTodo: { todo: string }) => {
       await todoClient.cancelQueries({ queryKey: ['todos'] });
 
-      const previousTodos = todoClient.getQueryData<TodoType[]>(['todos']);
+      const previousTodos = todoClient.getQueryData<TodoType[]>(['todos']) ?? [];
 
       todoClient.setQueryData<TodoType[]>(['todos'], () => [
-        ...(previousTodos ?? []),
+        ...previousTodos,
         { id: v4(), todo: newTodo.todo },
       ]);
 
       return { previousTodos };
+    },
+    onError: (error, _, context) => {
+      todoClient.setQueryData(['todos'], context?.previousTodos);
+
+      alert('할일 목록을 추가하는 중에 에러가 발생했습니다!');
     },
     onSettled: () => {
       todoClient.invalidateQueries(['todos']);

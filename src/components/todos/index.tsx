@@ -1,3 +1,4 @@
+import TodoCount from './TodoCount';
 import TodoInput from './TodoInput';
 import TodoList from './TodoList';
 
@@ -6,6 +7,7 @@ function Todo() {
     <>
       <TodoList />
       <TodoInput />
+      <TodoCount />
     </>
   );
 }

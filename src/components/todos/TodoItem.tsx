@@ -20,6 +20,11 @@ function TodoItem({ id, todo }: TodoType) {
 
       return { previousTodos };
     },
+    onError(error, _, context) {
+      alert('할일을 삭제하는 중에 에러가 발생했습니다!');
+
+      todoClient.setQueryData(['todos'], context?.previousTodos);
+    },
     onSettled: () => {
       todoClient.invalidateQueries(['todos']);
     },

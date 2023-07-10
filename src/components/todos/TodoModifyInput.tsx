@@ -32,7 +32,9 @@ function TodoModifyInput({ id, todo, closeModifyInput }: Props) {
 
       return { previousTodos };
     },
-    onError: (err, todos, context) => {
+    onError: (error, todos, context) => {
+      alert('할일을 수정하는 중에 에러가 발생했습니다!');
+
       todoClient.setQueryData(['todos'], context?.previousTodos);
     },
     onSuccess: () => {
