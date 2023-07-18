@@ -22,6 +22,10 @@ export const Main = () => {
     navigate('/todo');
   };
 
+  const goToBatchUpdate = () => {
+    navigate('/batchUpdate');
+  };
+
   return (
     <Layout title="메인 페이지">
       <Style.Container>
@@ -32,6 +36,8 @@ export const Main = () => {
         <Style.RouteButton onClick={goToArrayMap}>key값 테스트</Style.RouteButton>
         <Margin direction={'row'} size={15} />
         <Style.RouteButton onClick={goToTodoList}>TODO 리스트</Style.RouteButton>
+        <Margin direction={'row'} size={15} />
+        <Style.RouteButton onClick={goToBatchUpdate}>배치 업데이트 테스트</Style.RouteButton>
       </Style.Container>
     </Layout>
   );
