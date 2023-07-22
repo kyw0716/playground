@@ -6,6 +6,7 @@ import ArrayMap from './pages/ArrayMap';
 import TodoPage from './pages/TodoPage';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import BatchUpdate from './pages/BatchUpdate';
+import { CleanUpPage } from './pages/CleanUp';
 
 const todoClient = new QueryClient();
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/arrayMap" Component={ArrayMap} />
           <Route path="/todo" Component={TodoPage} />
           <Route path="/batchUpdate" Component={BatchUpdate} />
+          <Route path="/cleanUp" Component={CleanUpPage} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
