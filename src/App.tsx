@@ -7,6 +7,7 @@ import TodoPage from './pages/TodoPage';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import BatchUpdate from './pages/BatchUpdate';
 import { CleanUpPage } from './pages/CleanUp';
+import { MySyncExternalStorePage } from './pages/MySyncExternalStore';
 
 const todoClient = new QueryClient();
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/todo" Component={TodoPage} />
           <Route path="/batchUpdate" Component={BatchUpdate} />
           <Route path="/cleanUp" Component={CleanUpPage} />
+          <Route path="/mySyncExternalStore" Component={MySyncExternalStorePage} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

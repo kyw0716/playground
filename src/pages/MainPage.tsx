@@ -30,6 +30,10 @@ export const Main = () => {
     navigate('/cleanUp');
   };
 
+  const goToMySyncExternalStore = () => {
+    navigate('/mySyncExternalStore');
+  };
+
   return (
     <Layout title="메인 페이지">
       <Style.Container>
@@ -44,6 +48,10 @@ export const Main = () => {
         <Style.RouteButton onClick={goToBatchUpdate}>배치 업데이트 테스트</Style.RouteButton>
         <Margin direction={'row'} size={15} />
         <Style.RouteButton onClick={goToCleanUp}>CleanUP 테스트</Style.RouteButton>
+        <Margin direction={'row'} size={15} />
+        <Style.RouteButton onClick={goToMySyncExternalStore}>
+          MySyncExternalStore 테스트
+        </Style.RouteButton>
       </Style.Container>
     </Layout>
   );
