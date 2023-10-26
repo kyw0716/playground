@@ -87,17 +87,17 @@ export const Main = () => {
       <FlexBox>
         {isShow && (
           <FlexBox>
-            <ListItem />
+            <List1 />
           </FlexBox>
         )}
         {isShow2 && (
           <FlexBox>
-            <ListItem2 />
+            <List2 />
           </FlexBox>
         )}
         {isShow3 && (
           <FlexBox>
-            <ListItem3 />
+            <List3 />
           </FlexBox>
         )}
       </FlexBox>
@@ -105,7 +105,8 @@ export const Main = () => {
   );
 };
 
-const ListItem = () => {
+// TODO: 원래 서비스에서 최적화 전에 마커 찍을 때처럼 하위 컴포넌트에서 createRoot 후에 render를 해주도록 수정해보기
+const List1 = () => {
   const divRef = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
@@ -128,7 +129,7 @@ const ListItem = () => {
   );
 };
 
-const ListItem2 = () => {
+const List2 = () => {
   return (
     <FlexBox direction="column">
       {Array.from({ length: 10000 }).map(() => (
@@ -138,7 +139,7 @@ const ListItem2 = () => {
   );
 };
 
-const ListItem3 = () => {
+const List3 = () => {
   const [roots, setRoots] = useState<Root[]>([]);
   const divRef = useRef<HTMLDivElement>(null);
 
