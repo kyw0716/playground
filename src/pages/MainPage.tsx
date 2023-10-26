@@ -105,28 +105,25 @@ export const Main = () => {
   );
 };
 
-// TODO: 원래 서비스에서 최적화 전에 마커 찍을 때처럼 하위 컴포넌트에서 createRoot 후에 render를 해주도록 수정해보기
 const List1 = () => {
-  const divRef = useRef<HTMLDivElement[]>([]);
-
-  useEffect(() => {
-    divRef.current.forEach((el) => {
-      const root = createRoot(el);
-      root.render(<Style.ListItem />);
-    });
-
-    return () => {
-      console.log('unmount');
-    };
-  }, []);
-
   return (
     <FlexBox direction="column">
-      {Array.from({ length: 10000 }).map((_, i) => (
-        <div ref={(el) => (divRef.current[i] = el!)}></div>
+      {Array.from({ length: 10000 }).map(() => (
+        <ListItem />
       ))}
     </FlexBox>
   );
+};
+
+const ListItem = () => {
+  const divRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const root = createRoot(divRef.current!);
+    root.render(<Style.ListItem />);
+  }, []);
+
+  return <div ref={divRef}></div>;
 };
 
 const List2 = () => {
@@ -141,6 +138,7 @@ const List2 = () => {
 
 const List3 = () => {
   const [roots, setRoots] = useState<Root[]>([]);
+  const [isShow, setIsShow] = useState(false);
   const divRef = useRef<HTMLDivElement>(null);
 
   const createListItems = () => {
@@ -167,10 +165,18 @@ const List3 = () => {
     <FlexBox ref={divRef} direction="column">
       <button
         onClick={() => {
-          renderListItems(roots);
+          setIsShow((prev) => !prev);
+
+          if (!isShow) {
+            renderListItems(roots);
+          } else {
+            roots.forEach((root) => {
+              root.render(<></>);
+            });
+          }
         }}
       >
-        개선된 느린 박스 진짜로 생성
+        개선된 느린 박스 {isShow ? '삭제' : '생성'}
       </button>
     </FlexBox>
   );
