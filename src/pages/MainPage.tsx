@@ -2,8 +2,15 @@ import styled from 'styled-components';
 import { Layout } from '../components/layout/Layout';
 import { useNavigate } from 'react-router-dom';
 import { Margin } from '../components/layout/Margin';
+import { useEffect, useRef, useState } from 'react';
+import { FlexBox } from '../components/layout/FlexBox';
+import { Root, createRoot } from 'react-dom/client';
 
 export const Main = () => {
+  const [isShow, setIsShow] = useState(false);
+  const [isShow2, setIsShow2] = useState(false);
+  const [isShow3, setIsShow3] = useState(false);
+
   const navigate = useNavigate();
 
   const goToErrorBoundaryPage = () => {
@@ -34,6 +41,18 @@ export const Main = () => {
     navigate('/mySyncExternalStore');
   };
 
+  const createBoxes1 = () => {
+    setIsShow((prev) => !prev);
+  };
+
+  const createBoxes2 = () => {
+    setIsShow2((prev) => !prev);
+  };
+
+  const createBoxes3 = () => {
+    setIsShow3((prev) => !prev);
+  };
+
   return (
     <Layout title="메인 페이지">
       <Style.Container>
@@ -52,15 +71,113 @@ export const Main = () => {
         <Style.RouteButton onClick={goToMySyncExternalStore}>
           MySyncExternalStore 테스트
         </Style.RouteButton>
+        <Margin direction={'row'} size={15} />
+        <Style.RouteButton onClick={createBoxes1}>
+          {isShow ? '느린 박스 삭제' : '느린 박스 생성'}
+        </Style.RouteButton>
+        <Margin direction={'row'} size={15} />
+        <Style.RouteButton onClick={createBoxes2}>
+          {isShow2 ? '빠른 박스 삭제' : '빠른 박스 생성'}
+        </Style.RouteButton>
+        <Margin direction={'row'} size={15} />
+        <Style.RouteButton onClick={createBoxes3}>
+          {isShow3 ? '개선된 느린 박스 삭제' : '개선된 느린 박스 생성'}
+        </Style.RouteButton>
       </Style.Container>
+      <FlexBox>
+        {isShow && (
+          <FlexBox>
+            <ListItem />
+          </FlexBox>
+        )}
+        {isShow2 && (
+          <FlexBox>
+            <ListItem2 />
+          </FlexBox>
+        )}
+        {isShow3 && (
+          <FlexBox>
+            <ListItem3 />
+          </FlexBox>
+        )}
+      </FlexBox>
     </Layout>
+  );
+};
+
+const ListItem = () => {
+  const divRef = useRef<HTMLDivElement[]>([]);
+
+  useEffect(() => {
+    divRef.current.forEach((el) => {
+      const root = createRoot(el);
+      root.render(<Style.ListItem />);
+    });
+
+    return () => {
+      console.log('unmount');
+    };
+  }, []);
+
+  return (
+    <FlexBox direction="column">
+      {Array.from({ length: 10000 }).map((_, i) => (
+        <div ref={(el) => (divRef.current[i] = el!)}></div>
+      ))}
+    </FlexBox>
+  );
+};
+
+const ListItem2 = () => {
+  return (
+    <FlexBox direction="column">
+      {Array.from({ length: 10000 }).map(() => (
+        <Style.ListItem />
+      ))}
+    </FlexBox>
+  );
+};
+
+const ListItem3 = () => {
+  const [roots, setRoots] = useState<Root[]>([]);
+  const divRef = useRef<HTMLDivElement>(null);
+
+  const createListItems = () => {
+    return Array.from({ length: 10000 }).map(() => {
+      const div = document.createElement('div');
+      const root = createRoot(div);
+
+      divRef.current?.appendChild(div);
+      return root;
+    });
+  };
+
+  const renderListItems = (roots: Root[]) => {
+    roots.forEach((root) => {
+      root.render(<Style.ListItem />);
+    });
+  };
+
+  useEffect(() => {
+    setRoots(createListItems());
+  }, []);
+
+  return (
+    <FlexBox ref={divRef} direction="column">
+      <button
+        onClick={() => {
+          renderListItems(roots);
+        }}
+      >
+        개선된 느린 박스 진짜로 생성
+      </button>
+    </FlexBox>
   );
 };
 
 const Style = {
   Container: styled.div`
     width: 100vw;
-    min-height: 100vh;
 
     display: flex;
     align-items: center;
@@ -68,5 +185,11 @@ const Style = {
   `,
   RouteButton: styled.button`
     padding: 15px;
+  `,
+  ListItem: styled.li`
+    width: 50px;
+    height: 1px;
+
+    background-color: red;
   `,
 };
